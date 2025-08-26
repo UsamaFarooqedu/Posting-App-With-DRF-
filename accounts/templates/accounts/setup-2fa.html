@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Setup Two-Factor Authentication{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Setup Two-Factor Authentication</h3>
+                </div>
+                <div class="card-body">
+                    <p>Scan this QR code with your authenticator app:</p>
+                    
+                    <div class="text-center mb-4">
+                        <img src="https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl={{ provisioning_uri }}" 
+                             alt="QR Code" class="img-fluid">
+                    </div>
+                    
+                    <p>Or manually enter this secret key: <code>{{ provisioning_uri|slice:"-16:" }}</code></p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="token" class="form-label">Enter the 6-digit code from your app:</label>
+                            <input type="text" class="form-control" id="token" name="token" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Verify and Enable</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
